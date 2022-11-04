@@ -15,7 +15,7 @@ public class FileMix {
 
         try(RandomAccessFile file_a = new RandomAccessFile(new File("g:/iotest/a.txt"),"rw");
             RandomAccessFile file_b = new RandomAccessFile(new File("g:/iotest/b.txt"),"r")){
-            //ab分别写入数组
+            //a&b write into arr separately
             byte[] arr1 = new byte[(int) file_a.length()];
             for (int i = 0;i<file_a.length();i++){
                 file_a.read(arr1);
@@ -28,13 +28,13 @@ public class FileMix {
             }
             System.out.println(Arrays.toString(arr2));
 
-            //ab合并到新数组准备写入,以asc13对应做分割
-            // +8避免光标在下一行造成数组越界
+            //merge them into new array,divide it by ASCII
+            // +8 for avoid Array Out Of Bounds
             byte[] arr3 = new byte[(int) (file_a.length()+file_b.length()+8)];
-            //record记录对应文件数组下标
+            //record arr index
             int record1 = 0;
             int record2 = 0;
-            //boolean交替循环记录
+            //use boolean to indicate D cross loop
             boolean rec = false;
             for (int i = 0;i < arr3.length;i++){
                 if (rec == false && record1 < arr1.length && arr1[record1] != 10 ){
